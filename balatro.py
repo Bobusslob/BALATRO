@@ -74,6 +74,10 @@ def game():
     for i in range(0,8):
         card = deck.cards[i]
         hand.append(card)
+        deck.cards.remove(card)
+        print(card.name)
+    print()
+    for card in deck.cards:
         print(card.name)
     while running:
         for event in pygame.event.get():
