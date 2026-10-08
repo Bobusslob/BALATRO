@@ -69,7 +69,11 @@ def game():
         "Flush Five":{"Worth":160, "Mult":16},
     }
     deck = Deck()
-    for card in deck.cards:
+    hand = []
+    deck.shuffle()
+    for i in range(0,8):
+        card = deck.cards[i]
+        hand.append(card)
         print(card.name)
     while running:
         for event in pygame.event.get():
