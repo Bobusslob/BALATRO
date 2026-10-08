@@ -1,5 +1,6 @@
 import random
 import math
+import sys
 import time
 import sqlite3
 import pygame
@@ -11,8 +12,9 @@ class Deck:
         for suit in self.suite:
             for value in range(1, 14):
                 if value > 10:
-                    self.suite.append(Card(value, self.greater_than_ten[value - 11], suit))
-
+                    self.cards.append(Card(value, self.greater_than_ten[value - 11], suit))
+    def shuffle(self):
+        random.shuffle(self.cards)
 class Card:
     def __init__(self, value, name, suit):
         self.value = value
@@ -33,13 +35,30 @@ def initDb():
         conn.execute('CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, score INTEGER NOT NULL)')
 
 def game():
+    pygame.init()
+    SCREEN_WIDTH = 800
+    SCREEN_HEIGHT = 600
+    SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT, pygame.SIZEABLE)
+
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+    pygame.display.set_caption("My Pygame Starter Window")
+    clock = pygame.time.Clock()
+    FPS = 60
+    running = True
     play = True
     while play:
         userInp = input("Do you want to play? (y/n): ")
         if userInp.lower() == "n":
             play = False
-        else:
-
-
+        if userInp.lower() == "y":
+            while running:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                screen.fill((0,0,0))
+                pygame.display.update()
+                clock.tick(FPS)
+        pygame.quit()
+        sys.exit()
 if __name__ == "__main__":
     game()
