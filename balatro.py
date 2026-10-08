@@ -44,8 +44,8 @@ def initDb():
 
 def game():
     pygame.init()
-    SCREEN_WIDTH = 800
-    SCREEN_HEIGHT = 600
+    SCREEN_WIDTH = 2160
+    SCREEN_HEIGHT = 1080
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
     screen = pygame.display.set_mode(SCREEN_SIZE, pygame.RESIZABLE)
