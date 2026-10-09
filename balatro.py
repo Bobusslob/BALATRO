@@ -84,15 +84,16 @@ class Deck:
                 if value > 10:
                     if value - cardLoopVar > len(self.greater_than_ten) - 1:
                         cardLoopVar+=len(self.greater_than_ten)
-                    self.cards.append(Card(10, f'{self.greater_than_ten[value - cardLoopVar]} of {suit}', suit, cardImgList[cardAssigner - 1]))
+                    self.cards.append(Card(10, f'{self.greater_than_ten[value - cardLoopVar]} of {suit}', suit, cardImgList[cardAssigner - 1], False))
                 else:
-                    self.cards.append(Card(value, f'{value} of {suit}', suit, cardImgList[cardAssigner - 1]))
+                    self.cards.append(Card(value, f'{value} of {suit}', suit, cardImgList[cardAssigner - 1], False))
 class Card:
-    def __init__(self, value, name, suit, cardPath):
+    def __init__(self, value, name, suit, cardPath, clicked):
         self.value = value
         self.suit = suit
         self.name = name
         self.cardPath = cardPath
+        self.clicked = clicked
     def change_suit(self, new_suit):
         self.suit = new_suit
     def pullCard(self):
@@ -136,6 +137,7 @@ def game():
     deck = Deck()
     hand = []
     deck.shuffle()
+    clicked = False
     for i in range(0,8):
         card = deck.cards[i]
         hand.append(card)
@@ -153,10 +155,16 @@ def game():
                 if event.key == pygame.K_ESCAPE:
                     running = False
             for card in hand:
-                if card.cardPath.get_rect(topleft=(100 + hand.index(card) * 100, 100)).collidepoint(pygame.mouse.get_pos()):
-                    screen.blit(card.cardPath, (100 + hand.index(card) * 100, 90))
+                if event.type != pygame.MOUSEBUTTONDOWN:
+                    if card.cardPath.get_rect(topleft=((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 100)).collidepoint(pygame.mouse.get_pos()):
+                        screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 110))
+                    else:
+                        screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 100))
                 else:
-                    screen.blit(card.cardPath, (100 + hand.index(card) * 100, 100))
+                    card.clicked = not card.clicked
+                if card.clicked:
+                    screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 150))
+
         pygame.display.update()
         clock.tick(FPS)
 
