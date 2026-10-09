@@ -144,8 +144,6 @@ def game():
         deck.cards.remove(card)
         print(card.name)
     print()
-    for card in deck.cards:
-        print(card.name)
     while running:
         for event in pygame.event.get():
             screen.fill((0, 0, 0))
@@ -155,14 +153,16 @@ def game():
                 if event.key == pygame.K_ESCAPE:
                     running = False
             for card in hand:
-                if event.type != pygame.MOUSEBUTTONDOWN:
+                if event.type != pygame.MOUSEBUTTONDOWN and card.clicked == False:
                     if card.cardPath.get_rect(topleft=((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 100)).collidepoint(pygame.mouse.get_pos()):
                         screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 110))
                     else:
                         screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 100))
                 else:
                     card.clicked = not card.clicked
+                    print(card.clicked)
                 if card.clicked:
+                    print(card.clicked)
                     screen.blit(card.cardPath, ((SCREEN_WIDTH/3) + hand.index(card) * 60, SCREEN_HEIGHT - 150))
 
         pygame.display.update()
